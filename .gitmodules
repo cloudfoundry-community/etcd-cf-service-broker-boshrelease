@@ -1,0 +1,3 @@
+[submodule "src/etcd-cf-service-broker"]
+	path = src/etcd-cf-service-broker
+	url = https://github.com/cloudfoundry-community/etcd-cf-service-broker

@@ -1,0 +1,4 @@
+---
+name: etcd-cf-service-broker
+dependencies: [golang1.7]
+files: [etcd-cf-service-broker/**/*]

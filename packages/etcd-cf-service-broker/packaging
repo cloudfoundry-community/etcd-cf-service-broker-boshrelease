@@ -1,0 +1,15 @@
+#!/bin/bash -exu
+
+set -e -x
+
+mkdir -p ${BOSH_INSTALL_TARGET}/src/github.com/cloudfoundry-community
+
+cp -R ${PWD}/etcd-cf-service-broker ${BOSH_INSTALL_TARGET}/src/github.com/cloudfoundry-community/
+
+export GOROOT="$(readlink -nf /var/vcap/packages/golang1.7)"
+export GOPATH="${BOSH_INSTALL_TARGET}"
+export PATH="${GOROOT}/bin:${PATH}"
+
+go install github.com/cloudfoundry-community/etcd-cf-service-broker
+
+chown vcap:vcap ${BOSH_INSTALL_TARGET}/bin/etcd-cf-service-broker
