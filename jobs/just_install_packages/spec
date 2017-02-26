@@ -1,6 +1,0 @@
----
-name: just_install_packages
-packages: [etcd-cf-service-broker]
-templates:
-  ignoreme: ignoreme
-properties: {}

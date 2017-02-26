@@ -80,4 +80,3 @@ spruce merge --prune meta \
   $* > $tmpdir/$NAME-manifest.yml
 
 bosh deployment $tmpdir/$NAME-manifest.yml
-bosh status

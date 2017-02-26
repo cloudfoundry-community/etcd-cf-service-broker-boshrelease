@@ -1,4 +1,13 @@
 ---
+meta:
+  etcd:
+    machines: (( param "Please configure machines for etcd" ))
+    root_password:  (( param "Please configure root password for etcd" ))
+    # require_ssl: false
+    # ca_cert: ""
+    # client_cert: ""
+    # client_key: ""
+
 update:
   canaries: 1
   max_in_flight: 50
@@ -7,15 +16,15 @@ update:
   serial: false
 
 instance_groups:
-  - name: just_install_packages
-    jobs:
-    - name: just_install_packages
-      release: etcd-cf-service-broker
-    instances: 1
-    persistent_disk: 0
-    resource_pool: small_z1
-    networks: (( param "Please configure the networks for this job" ))
+- name: broker
+  jobs:
+  - name: broker
+    release: etcd-cf-service-broker
+    properties:
+      etcd: (( grab meta.etcd ))
+  instances: 1
+  persistent_disk: 0
+  resource_pool: small_z1
+  networks: (( param "Please configure the networks for this job" ))
 
 networks: (( param "Please configure the global network definitions for this Deployment" ))
-
-properties: {}

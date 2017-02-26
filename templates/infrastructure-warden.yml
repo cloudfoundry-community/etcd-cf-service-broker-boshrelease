@@ -13,7 +13,7 @@ update:
   update_watch_time: 1000-30000
 
 instance_groups:
-  - name: just_install_packages
+  - name: broker
     networks:
       - name: etcd_cf_service_broker1
 
