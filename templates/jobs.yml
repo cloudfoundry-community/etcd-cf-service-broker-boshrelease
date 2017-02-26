@@ -1,5 +1,9 @@
 ---
 meta:
+  broker:
+    port: 6000
+    username: broker
+    password: (( param "Please provide a big random password for the broker"))
   etcd:
     machines: (( param "Please configure machines for etcd" ))
     root_password:  (( param "Please configure root password for etcd" ))
@@ -21,6 +25,7 @@ instance_groups:
   - name: broker
     release: etcd-cf-service-broker
     properties:
+      broker: (( grab meta.broker ))
       etcd: (( grab meta.etcd ))
   instances: 1
   persistent_disk: 0

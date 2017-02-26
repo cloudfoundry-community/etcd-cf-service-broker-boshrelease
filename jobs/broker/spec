@@ -1,13 +1,25 @@
 ---
 name: broker
-packages: [etcd-cf-service-broker]
+packages:
+- etcd-cf-service-broker
+- jq
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger
+  bin/initialize_etcd_auth.sh: bin/initialize_etcd_auth.sh
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 properties:
+  broker.port:
+    description: Listening port for broker http requests
+    default: 6000
+  broker.username:
+    description: Broker basic auth username
+    default: broker
+  broker.password:
+    description: Broker basic auth password
+  
   etcd.root_username:
     description: "'root' user for etcd; created automatically if etcd has no users"
     default: root
@@ -20,6 +32,10 @@ properties:
 
   etcd.machines:
     description: "Addresses of etcd machines"
+
+  etcd.port:
+    description: "port of the etcd server"
+    default: 4001
 
   etcd.ca_cert:
     description: "PEM-encoded CA certificate"

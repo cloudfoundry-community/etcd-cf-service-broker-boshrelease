@@ -8,3 +8,17 @@ export NAME='<%= name %>'
 export JOB_INDEX=<%= index %>
 # full job name, like redis/0 or webapp/3
 export JOB_FULL="$NAME/$JOB_INDEX"
+
+<% if p("etcd.require_ssl") %>
+export ETCD_PROTOCOL=https
+<% else %>
+export ETCD_PROTOCOL=http
+<% end %>
+export ETCD_HOST=${ETCD_PROTOCOL}://<%= p("etcd.machines")[0] %>:<%= p("etcd.port") %>
+export ETCD_USERNAME=<%= p("etcd.root_username") %>
+export ETCD_PASSWORD=<%= p("etcd.root_password") %>
+export ETCD_URI=$ETCD_PROTOCOL://$ETCD_USERNAME:$ETCD_PASSWORD@<%= p("etcd.machines")[0] %>:<%= p("etcd.port") %>
+
+export PORT=<%= p("broker.port") %>
+export BROKER_USERNAME=<%= p("broker.username") %>
+export BROKER_PASSWORD=<%= p("broker.password") %>
