@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Setup env vars and folders for the errand script
+source /var/vcap/jobs/sanity-test/helpers/ctl_setup.sh 'sanity-test'
+
+<% if p("etcd.require_ssl") %>
+export ETCD_PROTOCOL=https
+<% else %>
+export ETCD_PROTOCOL=http
+<% end %>
+export ETCD_HOST=${ETCD_PROTOCOL}://<%= p("etcd.machines")[0] %>:<%= p("etcd.port") %>
+export ETCD_USERNAME=<%= p("etcd.root_username") %>
+export ETCD_PASSWORD=<%= p("etcd.root_password") %>
+export ETCD_URI=$ETCD_PROTOCOL://$ETCD_USERNAME:$ETCD_PASSWORD@<%= p("etcd.machines")[0] %>:<%= p("etcd.port") %>
+
+export BROKER_URI=http://<%= p("broker.username") %>:<%= p("broker.password") %>@<%= p("broker.host") %>:<%= p("broker.port") %>
+
+/var/vcap/packages/sanity-tests/bin/provision-bind-use

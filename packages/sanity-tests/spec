@@ -1,0 +1,4 @@
+---
+name: sanity-tests
+dependencies: []
+files: [etcd-cf-service-broker/tests/tasks/*]

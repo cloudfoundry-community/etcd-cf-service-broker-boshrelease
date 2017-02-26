@@ -31,5 +31,21 @@ instance_groups:
   persistent_disk: 0
   resource_pool: small_z1
   networks: (( param "Please configure the networks for this job" ))
+- name: sanity-test
+  jobs:
+  - name: sanity-test
+    release: etcd-cf-service-broker
+    properties:
+      broker:
+        host: (( grab instance_groups.broker.networks.0.static_ips.[0] ))
+        port: (( grab meta.broker.port ))
+        username: (( grab meta.broker.username ))
+        password: (( grab meta.broker.password ))
+      etcd: (( grab meta.etcd ))
+  instances: 1
+  lifecycle: errand
+  persistent_disk: 0
+  resource_pool: small_z1
+  networks: (( param "Please configure the networks for this job" ))
 
 networks: (( param "Please configure the global network definitions for this Deployment" ))

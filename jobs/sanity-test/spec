@@ -1,0 +1,32 @@
+---
+name: sanity-test
+packages: [sanity-tests,jq]
+templates:
+  bin/run: bin/run
+  helpers/ctl_setup.sh: helpers/ctl_setup.sh
+  helpers/ctl_utils.sh: helpers/ctl_utils.sh
+properties:
+  broker.host:
+    description: Broker host
+  broker.port:
+    description: Broker port
+    default: 6000
+  broker.username:
+    description: Broker basic auth username
+    default: broker
+  broker.password:
+    description: Broker basic auth password
+
+  etcd.root_username:
+    description: "'root' user for etcd; created automatically if etcd has no users"
+    default: root
+  etcd.root_password:
+    description: "password for root user"
+  etcd.require_ssl:
+    description: "enable ssl for all communication with etcd"
+    default: false
+  etcd.machines:
+    description: "Addresses of etcd machines"
+  etcd.port:
+    description: "port of the etcd server"
+    default: 4001
