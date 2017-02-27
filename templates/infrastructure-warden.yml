@@ -13,11 +13,18 @@ update:
   update_watch_time: 1000-30000
 
 instance_groups:
+  - name: etcd_z1
+    resource_pool: small_z1
+    networks:
+      - name: etcd_cf_service_broker1
+        static_ips: (( static_ips(4,5,6) ))
   - name: broker
+    resource_pool: small_z1
     networks:
       - name: etcd_cf_service_broker1
         static_ips: (( static_ips(0,1,2,3) ))
   - name: sanity-test
+    resource_pool: small_z1
     networks:
       - name: etcd_cf_service_broker1
 

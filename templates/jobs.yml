@@ -5,7 +5,6 @@ meta:
     username: broker
     password: (( param "Please provide a big random password for the broker"))
   etcd:
-    machines: (( param "Please configure machines for etcd" ))
     root_password:  (( param "Please configure root password for etcd" ))
     # require_ssl: false
     # ca_cert: ""
@@ -20,18 +19,36 @@ update:
   serial: false
 
 instance_groups:
+- name: etcd_z1
+  instances: 1
+  persistent_disk: 10240
+  jobs:
+  - name: etcd
+    release: etcd
+    properties:
+      etcd:
+        machines: (( grab instance_groups.etcd_z1.networks.0.static_ips ))
+        peer_require_ssl: false
+        require_ssl: false
+        heartbeat_interval_in_milliseconds: 50
+  networks: (( param "Environment must define jobs.etcd_z1.networks" ))
+  resource_pool: (( param "Define the etcd resource pool" ))
 - name: broker
+  instances: 1
+  persistent_disk: 0
   jobs:
   - name: broker
     release: etcd-cf-service-broker
     properties:
       broker: (( grab meta.broker ))
-      etcd: (( grab meta.etcd ))
-  instances: 1
-  persistent_disk: 0
-  resource_pool: small_z1
+      etcd:
+        machines: (( grab instance_groups.etcd_z1.networks.0.static_ips ))
+        root_password:  (( grab meta.etcd.root_password ))
+        require_ssl: false
+  resource_pool: (( param "Define the broker resource pool" ))
   networks: (( param "Please configure the networks for this job" ))
 - name: sanity-test
+  lifecycle: errand
   jobs:
   - name: sanity-test
     release: etcd-cf-service-broker
@@ -41,11 +58,13 @@ instance_groups:
         port: (( grab meta.broker.port ))
         username: (( grab meta.broker.username ))
         password: (( grab meta.broker.password ))
-      etcd: (( grab meta.etcd ))
+      etcd:
+        machines: (( grab instance_groups.etcd_z1.networks.0.static_ips ))
+        root_password:  (( grab meta.etcd.root_password ))
+        require_ssl: false
   instances: 1
-  lifecycle: errand
   persistent_disk: 0
-  resource_pool: small_z1
+  resource_pool: (( param "Define the sanity-test resource pool" ))
   networks: (( param "Please configure the networks for this job" ))
 
 networks: (( param "Please configure the global network definitions for this Deployment" ))
