@@ -11,13 +11,6 @@ meta:
     # client_cert: ""
     # client_key: ""
 
-update:
-  canaries: 1
-  max_in_flight: 50
-  canary_watch_time: 1000-30000
-  update_watch_time: 1000-30000
-  serial: false
-
 instance_groups:
 - name: etcd_z1
   instances: 1
