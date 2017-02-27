@@ -42,3 +42,24 @@ You can also manually interact with your broker (from inside your bosh-lite so y
 ```
 curl -u broker:password http://10.244.37.2:6000/v2/catalog
 ```
+
+### Public etcd URL
+
+If your etcd cluster has a public URL that is different from your internal etcd access, you can configure the broker to override the URL in binding credentials.
+
+Pass `meta.broker.public_etcd_url` within your YAML file and re-run the `./templates/make_manifest` command again to re-generate your manifest; then deploy again.
+
+```
+---
+meta:
+  etcd:
+    root_password: "^hPMvYHckHMWKnATCWssHPbwp8ub"
+  broker:
+    password: broker
+    public_etcd_url: http://10.58.111.45:4001
+```
+
+```
+./templates/make_manifest warden templates/releases.yml tmp/hub-lite.yml
+bosh deploy
+```

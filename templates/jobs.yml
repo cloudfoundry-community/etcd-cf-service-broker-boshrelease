@@ -3,6 +3,7 @@ meta:
   broker:
     username: broker
     password: (( param "Please provide a big random password for the broker"))
+    public_etcd_url: (( concat "http://" instance_groups.etcd_z1.networks.0.static_ips.[0] ":4001" ))
   etcd:
     root_password:  (( param "Please configure root password for etcd" ))
     # require_ssl: false
@@ -42,6 +43,7 @@ instance_groups:
         port: 6000
         username: (( grab meta.broker.username ))
         password: (( grab meta.broker.password ))
+        public_etcd_url: (( grab meta.broker.public_etcd_url ))
       etcd:
         machines: (( grab instance_groups.etcd_z1.networks.0.static_ips ))
         root_password:  (( grab meta.etcd.root_password ))
@@ -59,7 +61,7 @@ instance_groups:
         port: 6000
         username: (( grab meta.broker.username ))
         password: (( grab meta.broker.password ))
-        expected_etcd_host: (( concat "http://" instance_groups.etcd_z1.networks.0.static_ips.[0] ":4001" ))
+        expected_etcd_host: (( grab meta.broker.public_etcd_url ))
       etcd:
         machines: (( grab instance_groups.etcd_z1.networks.0.static_ips ))
         root_password:  (( grab meta.etcd.root_password ))
