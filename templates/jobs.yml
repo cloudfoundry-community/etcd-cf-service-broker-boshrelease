@@ -1,7 +1,6 @@
 ---
 meta:
   broker:
-    port: 6000
     username: broker
     password: (( param "Please provide a big random password for the broker"))
   etcd:
@@ -39,7 +38,10 @@ instance_groups:
   - name: broker
     release: etcd-cf-service-broker
     properties:
-      broker: (( grab meta.broker ))
+      broker:
+        port: 6000
+        username: (( grab meta.broker.username ))
+        password: (( grab meta.broker.password ))
       etcd:
         machines: (( grab instance_groups.etcd_z1.networks.0.static_ips ))
         root_password:  (( grab meta.etcd.root_password ))
@@ -54,7 +56,7 @@ instance_groups:
     properties:
       broker:
         host: (( grab instance_groups.broker.networks.0.static_ips.[0] ))
-        port: (( grab meta.broker.port ))
+        port: 6000
         username: (( grab meta.broker.username ))
         password: (( grab meta.broker.password ))
         expected_etcd_host: (( concat "http://" instance_groups.etcd_z1.networks.0.static_ips.[0] ":4001" ))

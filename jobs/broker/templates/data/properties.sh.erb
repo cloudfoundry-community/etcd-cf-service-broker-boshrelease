@@ -22,3 +22,6 @@ export ETCD_URI=$ETCD_PROTOCOL://$ETCD_USERNAME:$ETCD_PASSWORD@<%= p("etcd.machi
 export PORT=<%= p("broker.port") %>
 export BROKER_USERNAME=<%= p("broker.username") %>
 export BROKER_PASSWORD=<%= p("broker.password") %>
+<% if_p("broker.public_etcd_url") do |public_etcd_url| %>
+export BROKER_PUBLIC_ETCD_URL=<%= public_etcd_url %>
+<% end %>

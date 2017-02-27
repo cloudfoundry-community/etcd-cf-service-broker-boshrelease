@@ -19,7 +19,10 @@ properties:
     default: broker
   broker.password:
     description: Broker basic auth password
-  
+
+  broker.public_etcd_url:
+    description: Host URL used for published binding credentials
+
   etcd.root_username:
     description: "'root' user for etcd; created automatically if etcd has no users"
     default: root
