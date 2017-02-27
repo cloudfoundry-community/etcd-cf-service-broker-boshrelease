@@ -1,4 +1,4 @@
 ---
 name: etcd-cf-service-broker
 dependencies: [golang1.8]
-files: [etcd-cf-service-broker/**/*]
+files: [etcd-cf-service-broker/**/*.go]
