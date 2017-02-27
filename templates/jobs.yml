@@ -11,6 +11,12 @@ meta:
     # client_cert: ""
     # client_key: ""
 
+releases:
+- name: etcd-cf-service-broker
+  version: latest
+- name: etcd
+  version: latest
+
 instance_groups:
 - name: etcd_z1
   instances: 1
@@ -51,6 +57,7 @@ instance_groups:
         port: (( grab meta.broker.port ))
         username: (( grab meta.broker.username ))
         password: (( grab meta.broker.password ))
+        expected_etcd_host: (( concat "http://" instance_groups.etcd_z1.networks.0.static_ips.[0] ":4001" ))
       etcd:
         machines: (( grab instance_groups.etcd_z1.networks.0.static_ips ))
         root_password:  (( grab meta.etcd.root_password ))

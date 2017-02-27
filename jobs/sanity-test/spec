@@ -17,6 +17,9 @@ properties:
   broker.password:
     description: Broker basic auth password
 
+  broker.expected_etcd_host:
+    description: Assert the base URL expected in binding credentials
+
   etcd.root_username:
     description: "'root' user for etcd; created automatically if etcd has no users"
     default: root

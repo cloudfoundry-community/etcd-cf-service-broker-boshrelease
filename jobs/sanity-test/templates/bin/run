@@ -18,4 +18,5 @@ export ETCD_URI=$ETCD_PROTOCOL://$ETCD_USERNAME:$ETCD_PASSWORD@<%= p("etcd.machi
 
 export BROKER_URI=http://<%= p("broker.username") %>:<%= p("broker.password") %>@<%= p("broker.host") %>:<%= p("broker.port") %>
 
+export EXPECTED_ETCD_HOST=<%= p("broker.expected_etcd_host") %>
 /var/vcap/packages/sanity-tests/bin/provision-bind-use
