@@ -1,0 +1,40 @@
+---
+packages:
+- name: etcd-cf-service-broker
+  version: 6d842a0689a0c8e9fe5991822dcec57e2d02e87b
+  fingerprint: 6d842a0689a0c8e9fe5991822dcec57e2d02e87b
+  sha1: 65f16ee6fd7c75947f87898581a120dd2557f661
+  dependencies:
+  - golang1.8
+- name: golang1.8
+  version: 63a243be32451af083a062ba2c929c3f2b34f132
+  fingerprint: 63a243be32451af083a062ba2c929c3f2b34f132
+  sha1: 70efc9680bdc20afb590215e742531dde67f8072
+  dependencies: []
+- name: jq
+  version: f502bfc65e67f129d21866f86e68f8458bd0ae28
+  fingerprint: f502bfc65e67f129d21866f86e68f8458bd0ae28
+  sha1: 57165552c331d977fe83f50894b528816fbd2b4e
+  dependencies: []
+- name: sanity-tests
+  version: 8d1aac52025262382a65aaf8b35ec212761b5d6e
+  fingerprint: 8d1aac52025262382a65aaf8b35ec212761b5d6e
+  sha1: 7778391af03536b0ffe0bdac50cdd7ee4eb6a9d7
+  dependencies: []
+jobs:
+- name: broker
+  version: b5902ea226f6d261744edf6cdf334a21a7df3464
+  fingerprint: b5902ea226f6d261744edf6cdf334a21a7df3464
+  sha1: '0609f3d0599557ad9d547f7330a3a4ea8549229d'
+- name: sanity-test
+  version: 05ecad3dc5f6219475062c6705a63724d9452913
+  fingerprint: 05ecad3dc5f6219475062c6705a63724d9452913
+  sha1: '0585ef802d8e4df1e9339af21b764047628b3bb8'
+license:
+  version: ac77a509d8b020148f8ce7b3ecce592f89c29c87
+  fingerprint: ac77a509d8b020148f8ce7b3ecce592f89c29c87
+  sha1: 5fe6d1385f29aa082c0f387cdad3a24562d23ecf
+commit_hash: 735e94f5
+uncommitted_changes: true
+name: etcd-cf-service-broker
+version: 0.3.0
