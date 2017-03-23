@@ -1,0 +1,12 @@
+---
+- type: replace
+  path: /releases/name=etcd-cf-service-broker
+  value:
+    name: dingo-postgresql
+    version: latest
+
+- type: replace
+  path: /releases/name=etcd
+  value:
+    name: etcd
+    version: latest

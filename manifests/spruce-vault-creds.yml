@@ -1,0 +1,1 @@
+servicebroker_password: (( vault $VAULT_PREFIX "/servicebroker:password" ))

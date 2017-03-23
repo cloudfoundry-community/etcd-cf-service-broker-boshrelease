@@ -1,0 +1,44 @@
+name: etcd-cf-service-broker
+
+instance_groups:
+- name: broker
+  instances: 1
+  vm_type: default
+  stemcell: default
+  networks: [{name: default}]
+  jobs:
+  - name: broker
+    release: etcd-cf-service-broker
+    properties:
+      broker:
+        username: broker
+        password: ((servicebroker_password))
+- name: sanity-test
+  instances: 1
+  lifecycle: errand
+  vm_type: default
+  stemcell: default
+  networks: [{name: default}]
+  jobs:
+  - name: sanity-test
+    release: etcd-cf-service-broker
+
+variables:
+- name: servicebroker_password
+  type: password
+
+releases:
+- name: etcd-cf-service-broker
+  version: 0.2.0
+  url: https://github.com/cloudfoundry-community/etcd-cf-service-broker-boshrelease/releases/download/v0.2.0/etcd-cf-service-broker-0.2.0.tgz
+  sha1: 062a5f317b4c0f2afe38b274b352c57d2f9091b7
+- name: etcd
+  version: 95.2
+  url: https://github.com/dingotiles/etcd2-boshrelease/releases/download/v95.2/etcd-95.2.tgz
+  sha1: 1b449036b25e302ab1a56965a6861dc1b4ed9516
+
+update:
+  canaries: 0
+  canary_watch_time: 1000-30000
+  max_in_flight: 1
+  update_watch_time: 1000-30000
