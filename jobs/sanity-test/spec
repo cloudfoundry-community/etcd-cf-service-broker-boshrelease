@@ -5,19 +5,21 @@ templates:
   bin/run: bin/run
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
-properties:
-  broker.host:
-    description: Broker host
-  broker.port:
-    description: Broker port
-    default: 6000
-  broker.username:
-    description: Broker basic auth username
-    default: broker
-  broker.password:
-    description: Broker basic auth password
 
-  broker.expected_etcd_host:
+provides:
+- name: etcd-cf-service-broker
+  type: servicebroker
+  properties:
+  - username
+  - password
+  - port
+
+consumes:
+- name: etcd-cf-service-broker
+  type: servicebroker
+
+properties:
+  expected_etcd_host:
     description: Assert the base URL expected in binding credentials
 
   etcd.root_username:

@@ -19,9 +19,9 @@ export ETCD_USERNAME=<%= p("etcd.root_username") %>
 export ETCD_PASSWORD=<%= p("etcd.root_password") %>
 export ETCD_URI=$ETCD_PROTOCOL://$ETCD_USERNAME:$ETCD_PASSWORD@<%= p("etcd.machines")[0] %>:<%= p("etcd.port") %>
 
-export PORT=<%= p("broker.port") %>
-export BROKER_USERNAME=<%= p("broker.username") %>
-export BROKER_PASSWORD=<%= p("broker.password") %>
-<% if_p("broker.public_etcd_url") do |public_etcd_url| %>
+export PORT=<%= p("port") %>
+export BROKER_USERNAME=<%= p("username") %>
+export BROKER_PASSWORD=<%= p("password") %>
+<% if_p("public_etcd_url") do |public_etcd_url| %>
 export BROKER_PUBLIC_ETCD_URL=<%= public_etcd_url %>
 <% end %>
