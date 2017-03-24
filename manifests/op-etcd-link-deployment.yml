@@ -1,0 +1,9 @@
+---
+- type: remove
+  path: /instance_groups/name=etcd
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=broker/consumes?/etcd
+  value:
+    from: ((etcd_link_alias))
+    deployment: ((etcd_deployment_name))
