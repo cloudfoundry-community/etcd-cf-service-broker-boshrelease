@@ -1,6 +1,22 @@
 name: etcd-cf-service-broker
 
 instance_groups:
+- name: etcd
+  azs: [z1, z2, z3]
+  instances: 1
+  persistent_disk_type: default
+  vm_type: default
+  stemcell: default
+  update: {serial: true, max_in_flight: 1}
+  networks: [{name: private}]
+  jobs:
+  - name: etcd
+    release: etcd
+    properties:
+      etcd:
+        peer_require_ssl: false
+        require_ssl: false
+        heartbeat_interval_in_milliseconds: 50
 - name: broker
   instances: 1
   vm_type: default
@@ -10,9 +26,10 @@ instance_groups:
   - name: broker
     release: etcd-cf-service-broker
     properties:
-      broker:
-        username: broker
-        password: ((servicebroker_password))
+      username: broker
+      password: ((servicebroker_password))
+      etcd:
+        root_password: ((etcd_root_password))
 - name: sanity-test
   instances: 1
   lifecycle: errand
@@ -25,6 +42,8 @@ instance_groups:
 
 variables:
 - name: servicebroker_password
+  type: password
+- name: etcd_root_password
   type: password
 
 releases:

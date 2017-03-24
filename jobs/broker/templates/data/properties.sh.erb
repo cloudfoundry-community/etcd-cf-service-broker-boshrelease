@@ -1,27 +1,22 @@
 #!/usr/bin/env bash
 
-# job template binding variables
+<%
+  etcd = link("etcd")
+  etcd_protocol = etcd.p("etcd.require_ssl") ? "https" : "http"
+  etcd_host = "#{etcd.instances.first.address}:etcd.p('port')"
 
-# job name & index of this VM within cluster
-# e.g. JOB_NAME=redis, JOB_INDEX=0
-export NAME='<%= name %>'
-export JOB_INDEX=<%= index %>
-# full job name, like redis/0 or webapp/3
-export JOB_FULL="$NAME/$JOB_INDEX"
+  etcd_root_username = p("etcd.root_username")
+  etcd_root_password = p("etcd.root_password")
 
-<% if p("etcd.require_ssl") %>
-export ETCD_PROTOCOL=https
-<% else %>
-export ETCD_PROTOCOL=http
-<% end %>
-export ETCD_HOST=${ETCD_PROTOCOL}://<%= p("etcd.machines")[0] %>:<%= p("etcd.port") %>
-export ETCD_USERNAME=<%= p("etcd.root_username") %>
-export ETCD_PASSWORD=<%= p("etcd.root_password") %>
-export ETCD_URI=$ETCD_PROTOCOL://$ETCD_USERNAME:$ETCD_PASSWORD@<%= p("etcd.machines")[0] %>:<%= p("etcd.port") %>
+  etcd_root_uri = "#{etcd_protocol}://#{etcd_root_username}:#{etcd_root_password}@#{etcd_host}"
+
+  default_expected_etcd_uri = "#{etcd_protocol}://#{etcd_host}"
+-%>
+export ETCD_USERNAME=<%= etcd_root_username %>
+export ETCD_PASSWORD=<%= etcd_root_password %>
+export ETCD_URI="<%= etcd_root_uri %>"
 
 export PORT=<%= p("port") %>
 export BROKER_USERNAME=<%= p("username") %>
 export BROKER_PASSWORD=<%= p("password") %>
-<% if_p("public_etcd_url") do |public_etcd_url| %>
-export BROKER_PUBLIC_ETCD_URL=<%= public_etcd_url %>
-<% end %>
+export BROKER_PUBLIC_ETCD_URL=<%= p("etcd.public_url") %>

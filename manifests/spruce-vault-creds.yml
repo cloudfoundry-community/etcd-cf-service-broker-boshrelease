@@ -1,1 +1,2 @@
 servicebroker_password: (( vault $VAULT_PREFIX "/servicebroker:password" ))
+etcd_root_password: (( vault $VAULT_PREFIX "/etcd/users/root:password" ))

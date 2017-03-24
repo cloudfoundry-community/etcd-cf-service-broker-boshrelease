@@ -37,15 +37,17 @@ Generate the required credentials into Vault using `safe`:
 ```
 export VAULT_PREFIX=secret/etcd-cf-service-broker/demo
 safe password $VAULT_PREFIX/servicebroker
+safe password $VAULT_PREFIX/etcd/users/root
 ```
 
 This will generate random secrets directly into Vault. To sanity check that they are there:
 
 ```
 safe get $VAULT_PREFIX/servicebroker
+safe get $VAULT_PREFIX/etcd/users/root
 ```
 
-You can fetch these into an input YAML file via `spruce merge`:
+You can fetch these into a useable YAML file via `spruce merge`:
 
 ```
 spruce merge manifests/spruce-vault-creds.yml

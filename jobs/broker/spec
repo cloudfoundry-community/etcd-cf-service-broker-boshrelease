@@ -18,6 +18,9 @@ provides:
   - username
   - password
   - port
+  - etcd.public_url
+  - etcd.root_username
+  - etcd.root_password
 
 properties:
   port:
@@ -29,38 +32,12 @@ properties:
   password:
     description: Broker basic auth password
 
-  public_etcd_url:
+  etcd.public_url:
     description: Host URL used for published binding credentials
+    default: ""
 
   etcd.root_username:
     description: "'root' user for etcd; created automatically if etcd has no users"
     default: root
   etcd.root_password:
     description: "password for root user"
-
-  etcd.require_ssl:
-    description: "enable ssl for all communication with etcd"
-    default: false
-
-  etcd.machines:
-    description: "Addresses of etcd machines"
-
-  etcd.port:
-    description: "port of the etcd server"
-    default: 4001
-
-  etcd.ca_cert:
-    description: "PEM-encoded CA certificate"
-    default: ""
-
-  etcd.client_cert:
-    description: "PEM-encoded client certificate"
-    default: ""
-
-  etcd.client_key:
-    description: "PEM-encoded client key"
-    default: ""
-
-  etcd.dns_health_check_host:
-    description: "Host to ping for confirmation of DNS resolution"
-    default: "consul.service.cf.internal"

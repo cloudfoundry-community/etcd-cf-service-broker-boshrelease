@@ -10,7 +10,7 @@ ETCD_HOST_PORT="${ETCD_HOST:?required}"
 if [[ "${ETCD_PORT:-X}" != "X" ]]; then
   ETCD_HOST_PORT="${ETCD_HOST_PORT}:${ETCD_PORT}"
 fi
-if [[ "${ETCD_PASSWORD}X" != "X" ]]; then
+if [[ "${ETCD_PASSWORD:-X}" != "X" ]]; then
   if [[ "$(curl -m${ETCD_MAX_TIME} -s ${ETCD_HOST_PORT}/v2/auth/users | jq -r .message)" != "Insufficient credentials" ]]; then
     users=$(curl -m${ETCD_MAX_TIME} -s ${ETCD_HOST_PORT}/v2/auth/users |  jq -r .users)
     echo "Existing users: $users"

@@ -6,32 +6,12 @@ templates:
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
-provides:
-- name: etcd-cf-service-broker
-  type: servicebroker
-  properties:
-  - username
-  - password
-  - port
-
 consumes:
+- name: etcd
+  type: etcd_service
 - name: etcd-cf-service-broker
   type: servicebroker
 
 properties:
   expected_etcd_host:
-    description: Assert the base URL expected in binding credentials
-
-  etcd.root_username:
-    description: "'root' user for etcd; created automatically if etcd has no users"
-    default: root
-  etcd.root_password:
-    description: "password for root user"
-  etcd.require_ssl:
-    description: "enable ssl for all communication with etcd"
-    default: false
-  etcd.machines:
-    description: "Addresses of etcd machines"
-  etcd.port:
-    description: "port of the etcd server"
-    default: 4001
+    description: Specific base URL expected to be in binding credentials
