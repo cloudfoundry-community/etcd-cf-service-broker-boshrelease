@@ -2,64 +2,33 @@
 
 ## Usage
 
-This section is a tutorial for deploying this release, including a sample single-node etcd cluster (using [etcd-release](https://github.com/cloudfoundry-incubator/etcd-release)), to a [bosh-lite](https://bosh.io/docs/bosh-lite.html).
+Once this broker has been deployed, it can either be used indirectly (via Cloud Foundry for example) or directly (via its API).
 
-Create a small manifest with passwords for the service broker (`meta.broker.password`), and for the etcd `root` user (`meta.etcd.root_password`).
-
-The etcd cluster itself will be deployed without authentication, and the broker will enable etcd authentication and create the `root` user that it will subsequently use to create/delete etcd roles and users.
+The Cloud Foundry user's experience might be:
 
 ```
----
-meta:
-  broker:
-    password: "iaCbzhFzmuwChfPUr2Yg"
-  etcd:
-    root_password: "hPMvYHckHMWKnATCWssHPbwp8ub"
+cf create-service etcd shared my-etcd
+cf bind-service myapp my-etcd
+cf restart myapp
 ```
 
-If this file is saved as `tmp/hub-lite.yml`, then to generate the BOSH deployment manifest:
+Above is the typical use case - provision a service instance and bind it to an application.
+
+If you want access to the etcd cluster yourself, Cloud Foundry CLI has the `cf service-key` commands:
 
 ```
-./templates/make_manifest warden templates/releases.yml tmp/hub-lite.yml
+cf create-service-key my-etcd my-etcd-drnic
+cf service-key my-etcd my-etcd-drnic
 ```
 
-The `templates/releases.yml` will include links to the latest final releases for `etcd-cf-service-broker` and `etcd`, and your BOSH will download them if missing.
+The access credentials will be displayed to the terminal.
 
-To start the deployment of your new etcd/broker cluster:
+**Note:** users/applications will be accessing a shared etcd cluster and must scope all their `/v2/keys` get/set requests within the provided path. Requests made outside this path will return etcd auth errors.
 
-```
-bosh deploy
-```
+Similarly, users/applications must access etcd using the basic auth credentials provided to access their `/v2/keys` subpath.
 
-Finally, to confirm that your system is working you can run the `sanity-test` errand:
+## Deployment
 
-```
-bosh run errand sanity-test
-```
+This BOSH release includes a very easy to use [`manifests/etcd-cf-service-broker.yml`](manifests/etcd-cf-service-broker.yml) manifest.
 
-You can also manually interact with your broker (from inside your bosh-lite so you can access the `10.244.37.2` container):
-
-```
-curl -u broker:password http://10.244.37.2:6000/v2/catalog
-```
-
-### Public etcd URL
-
-If your etcd cluster has a public URL that is different from your internal etcd access, you can configure the broker to override the URL in binding credentials.
-
-Pass `meta.broker.etcd.public_url` within your YAML file and re-run the `./templates/make_manifest` command again to re-generate your manifest; then deploy again.
-
-```
----
-meta:
-  etcd:
-    root_password: "^hPMvYHckHMWKnATCWssHPbwp8ub"
-  broker:
-    password: broker
-    etcd.public_url: http://10.58.111.45:4001
-```
-
-```
-./templates/make_manifest warden templates/releases.yml tmp/hub-lite.yml
-bosh deploy
-```
+See [`manifests/README.md`](manifests/README.md) for extra instructions.
