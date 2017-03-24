@@ -1,4 +1,4 @@
-# Etcd service broker deployment
+# etcd service broker deployment
 
 This folder contains an all-in-one manifest `etcd-cf-service-broker.yml` that will deploy a complete, running etcd cluster, with root credentials enabled, and a service broker that can partition and share the etcd cluster amongst many users.
 
@@ -7,30 +7,24 @@ This deployment is for a relatively modern BOSH director, with Cloud Config enab
 From the root folder:
 
 ```
-export BOSH_ENVIRONMENT=${BOSH_ENVIRONMENT:?required}
-export BOSH_DEPLOYMENT=etcd-cf-service-broker
+export BOSH_ENVIRONMENT=<name>
 
-bosh2 int manifests/etcd-cf-service-broker.yml --var-errs --vars-store=tmp/creds.yml
+export BOSH_DEPLOYMENT=etcd-cf-service-broker
 bosh2 deploy manifests/etcd-cf-service-broker.yml --vars-store=tmp/creds.yml
 ```
 
-This will fail; but will show you all the required input variables/parameters.
-
-Create a YAML file containing all the required input variables, say `tmp/vars.yml`:
+Some credentials/variables have been automatically generated into `tmp/creds.yml`:
 
 ```
-...
-```
-
-Some variables have been automatically generated into `creds.yml`:
-
-```
+etcd_root_password: x84vmcaaj1x3vzvn5r0r
 servicebroker_password: 7pv25cm9u1seklqjmy8o
 ```
 
 ## Store & retrieve creds from Vault
 
 Instead of generating credentials into a plain text local `tmp/creds.yml`, you might want secrets hidden inside Hashicorp Vault.
+
+**Note:** This section requires the `safe` and `spruce` CLI tools installed locally.
 
 Generate the required credentials into Vault using `safe`:
 
