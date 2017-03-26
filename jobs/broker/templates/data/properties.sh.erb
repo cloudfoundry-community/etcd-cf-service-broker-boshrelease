@@ -3,7 +3,7 @@
 <%
   etcd = link("etcd")
   etcd_protocol = etcd.p("etcd.require_ssl") ? "https" : "http"
-  etcd_host = "#{etcd.instances.first.address}:etcd.p('port')"
+  etcd_host = "#{etcd.instances.first.address}:4001"
 
   etcd_root_username = p("etcd.root_username")
   etcd_root_password = p("etcd.root_password")

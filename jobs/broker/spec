@@ -22,6 +22,10 @@ provides:
   - etcd.root_username
   - etcd.root_password
 
+consumes:
+- name: etcd
+  type: etcd_service
+
 properties:
   port:
     description: Listening port for broker http requests
